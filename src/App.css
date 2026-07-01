@@ -1,0 +1,288 @@
+:root {
+  --theme-dark-color: #256666;
+  --theme-color: #417D7D;
+  --theme-light-color: #689797;
+}
+
+h1 {
+  line-height: 1;
+}
+
+.gold-container {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: fit-content;
+  font-size: 1.25rem;
+  padding: .5rem 1rem 1rem 1rem;
+  color: white;
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  border-top: none;
+  border-bottom-left-radius: .5rem;
+  border-bottom-right-radius: .5rem;
+  z-index: 100;
+  -webkit-box-shadow: 0px 5px 15px 5px #222; 
+  box-shadow: 0px 5px 15px 5px #222;
+}
+
+.hero-shop .shop-list,
+.hero-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 30px 10px; 
+  flex-wrap: wrap;
+  margin-top: 5rem;
+}
+
+.hero-shop .shop-header h2,
+.graveyard-section h2 {
+  margin: 2rem;
+  margin-top: 5rem;
+}
+
+.hero-shop .shop-list {
+  margin-top: 2rem;
+}
+
+.hero-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  transition: all .15s ease-in-out;
+}
+
+.hero-card > button {
+  margin-top: 1rem;
+}
+
+.hero-list .hero-card {
+  cursor: pointer;
+}
+
+.hero-list .hero-card:hover,
+.hero-list .hero-card.selected {
+  transform: translateY(-5%);
+}
+
+.hero-card.selected {
+  border-color: var(--accent);
+}
+
+.hero-card .hero-img {
+  width: 100%;
+  height: 175px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.hero-card .status-available,
+.hero-card .status-busy {
+  color: white;
+}
+
+.hero-card .status-available {
+  background-color: green;
+}
+
+.hero-card .status-busy {
+  background-color: orange;
+}
+
+.graveyard-section {
+  margin: 2rem 0;
+}
+
+.graveyard-list {
+  display: flex;
+  gap: 10px;
+}
+
+.grave-card {
+  background: #2c3e50;
+  color: #bdc3c7;
+  filter: grayscale(100%); /* Macht alles schwarz-weiß */
+  opacity: 0.7;
+  border: 1px solid #7f8c8d;
+  display: flex;
+  padding: 10px;
+  gap: 15px;
+  border-radius: 8px;
+  text-align: start;
+}
+
+.grave-info h4 {
+  margin-top: 0;
+  margin-bottom: .25em;
+}
+
+.grave-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Der Anker für alle Benachrichtigungen */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column; /* Stapelt von oben nach unten */
+  justify-content: flex-start; /* Richtet sie am oberen Rand aus */
+  gap: 10px;
+  z-index: 9999;
+  width: 300px;
+  pointer-events: none;
+}
+
+/* Die einzelne Karte */
+.toast-card {
+  background: var(--theme-dark-color); /* Ein schickes Dunkelblau/Grau */
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  pointer-events: auto; /* Klicks auf die Karte selbst funktionieren natürlich */
+  border-left: 5px solid var(--accent);
+  animation: slideIn 0.3s ease-out;
+}
+
+.toast-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 5px;
+}
+
+.toast-header button {
+  margin-top: 0;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.toast-card > p {
+  white-space: pre-line;
+}
+
+/* Ein kleiner Animationseffekt für das "Reinfliegen" */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25); /* Dunkler Hintergrund */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  color: black;
+  min-width: 300px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.timer-container {
+  opacity: 0;
+  position: relative;
+  width: 100%;
+  height: 20px;
+  background-color: gray;
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden; /* Wichtig, damit die Ecken des inneren Balkens nicht überstehen */
+  position: relative;
+}
+
+.busy .timer-container {
+  opacity: 1;
+}
+
+.timer-bar {
+  height: 100%;
+  transition: all 1s linear;
+}
+
+.available .timer-bar {
+  width: 100% !important;
+}
+
+/* Die Zahl im Balken */
+.timer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  position: absolute; /* Text bleibt zentriert, egal wie schmal der Balken ist */
+  text-align: center;
+}
+
+.mission-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 2rem;
+}
+
+.mission-controls .mission-wrapper > .team-size,
+.mission-controls .mission-wrapper > .chance-display {
+  font-size: .8em;
+}
+
+.mission-controls .chance-display.synergy {
+  background: linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+button {
+  appearance: none;
+  background-color: #5A6C71;
+  color: white;
+  padding: .5em 1em;
+  border: 1px solid #5A6C71;
+}
+
+button:hover {
+  background-color: white;
+  color: #5A6C71;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: gray;
+  color: lightgray;
+}
+
+button:disabled:hover {
+  cursor: initial;
+}
