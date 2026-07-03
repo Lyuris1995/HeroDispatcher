@@ -29,9 +29,9 @@ export interface MissionConfig {
 }
 
 const MISSION_TYPES: MissionConfig[] = [
-  { label: "Patrouille", difficulty: "easy", duration: 3, baseChance: 0.9, preferredClass: ["Speedster", "Tech"], powerGain: 1, minGold: 1, maxGold: 3, maxHeroes: 1},
-  { label: "Bankraub verhindern", difficulty: "hard", duration: 7, baseChance: 0.5, preferredClass: ["Tank", "Fighter"], powerGain: 4 , minGold: 5, maxGold: 10, maxHeroes: 2},
-  { label: "Alien Invasion", difficulty: "legendary", duration: 12, baseChance: 0.2, preferredClass: ["Fighter", "Tank", "Tech"], powerGain: 10, minGold: 15, maxGold: 30, maxHeroes: 4},
+  { label: "Patrouille", difficulty: "easy", duration: 3, baseChance: 0.9, preferredClass: ["Speedster", "Tech"], powerGain: 1, minGold: 1, maxGold: 3, maxHeroes: 1 },
+  { label: "Bankraub verhindern", difficulty: "hard", duration: 7, baseChance: 0.5, preferredClass: ["Tank", "Fighter"], powerGain: 4, minGold: 5, maxGold: 10, maxHeroes: 2 },
+  { label: "Alien Invasion", difficulty: "legendary", duration: 12, baseChance: 0.2, preferredClass: ["Fighter", "Tank", "Tech"], powerGain: 10, minGold: 15, maxGold: 30, maxHeroes: 4 },
 ];
 
 const calculateTeamChance = (selectedHeroes: Hero[], mission: MissionConfig): number => {
@@ -57,12 +57,12 @@ function getRandomInt(min: number, max: number) {
 }
 
 function getRandomArrayElements<T>(arr: T[], count: number): T[] {
-    const shuffled = [...arr];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled.slice(0, count);
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, count);
 }
 
 function App() {
@@ -74,8 +74,8 @@ function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setHeroes(prevHeroes => 
-        prevHeroes.map(h => 
+      setHeroes(prevHeroes =>
+        prevHeroes.map(h =>
           h.timer > 0 ? { ...h, timer: h.timer - 1 } : h
         )
       );
@@ -91,9 +91,9 @@ function App() {
     // Nur umschalten, wenn der Held existiert UND verfügbar ist
     // (Oder wenn er bereits ausgewählt ist, damit man ihn wieder ABwählen kann)
     if (hero && (hero.status === "available" || selectedHeroIds.includes(id))) {
-      setSelectedHeroIds(prev => 
-        prev.includes(id) 
-          ? prev.filter(heroId => heroId !== id) 
+      setSelectedHeroIds(prev =>
+        prev.includes(id)
+          ? prev.filter(heroId => heroId !== id)
           : [...prev, id]
       );
     }
@@ -108,9 +108,9 @@ function App() {
     const currentTeamIds = [...selectedHeroIds];
 
     // Alle Teilnehmer auf 'busy' setzen
-    setHeroes(prev => prev.map(h => 
-      selectedHeroIds.includes(h.id) 
-        ? { ...h, status: "busy", timer: mission.duration, maxTimer: mission.duration } 
+    setHeroes(prev => prev.map(h =>
+      selectedHeroIds.includes(h.id)
+        ? { ...h, status: "busy", timer: mission.duration, maxTimer: mission.duration }
         : h
     ));
 
@@ -118,12 +118,12 @@ function App() {
 
     setTimeout(() => {
       const success = Math.random() < chance;
-      
+
       if (success) {
         const earnedGold = getRandomInt(mission.minGold, mission.maxGold);
         setGold(prev => prev + earnedGold);
         // Erfolg: Alle bekommen Power
-        setHeroes(prev => prev.map(h => 
+        setHeroes(prev => prev.map(h =>
           heroesOnMission.some(mH => mH.id === h.id)
             ? { ...h, status: "available", power: h.power + mission.powerGain, timer: 0 }
             : h
@@ -141,13 +141,13 @@ function App() {
         const fallenHeroes = heroesOnMission.filter(() => Math.random() < 0.10);
         const fallenIds = fallenHeroes.map(h => h.id);
         setNotifications(prev => [...prev, {
-            id: Date.now(),
-            text: `Die Mission "${mission.label}" des Teams (${teamNames}) ist fehlgeschlagen! ❌`
-          }]);
+          id: Date.now(),
+          text: `Die Mission "${mission.label}" des Teams (${teamNames}) ist fehlgeschlagen! ❌`
+        }]);
         if (fallenHeroes.length > 0) {
           // 2. Alle Gefallenen auf einmal in den Friedhof
           setGraveyard(prev => [
-            ...prev, 
+            ...prev,
             ...fallenHeroes.map(h => ({ ...h, status: "dead" as const }))
           ]);
 
@@ -182,8 +182,8 @@ function App() {
     if (gold >= cost) {
       setGold(prev => prev - cost);
       // Wir fügen den neuen Helden der Liste hinzu
-      setHeroes(prev => [...prev, { ...hero, status: "available", timer: 0 }]); 
-      
+      setHeroes(prev => [...prev, { ...hero, status: "available", timer: 0 }]);
+
       setNotifications(prev => [...prev, {
         id: Date.now(),
         text: `${hero.name} hat sich deiner Truppe angeschlossen! ⚔️`
@@ -204,18 +204,18 @@ function App() {
     return false;
   };
 
-  const [notifications, setNotifications] = useState<{id: number, text: string}[]>([]);
-  
+  const [notifications, setNotifications] = useState<{ id: number, text: string }[]>([]);
+
   return (
-    <div>
+    <div className="main">
       <div className="gold-container">{gold} Gold</div>
       <h1>Hero Dispatcher</h1>
       <div className="hero-list">
         {heroes.map((hero) => (
           // Hier rufen wir die Komponente auf und übergeben den aktuellen "hero" als Prop
-          <HeroCard 
-            key={hero.id} 
-            hero={hero} 
+          <HeroCard
+            key={hero.id}
+            hero={hero}
             onSelect={() => toggleHeroSelection(hero.id)}
             isSelected={selectedHeroIds.includes(hero.id)}
           />
@@ -223,13 +223,13 @@ function App() {
       </div>
       <div className="controls">
         <div className="mission-controls">
-         {MISSION_TYPES.map(m => {
+          {MISSION_TYPES.map(m => {
             // 1. Hol dir die echten Helden-Objekte für die aktuell ausgewählten IDs
             const selectedHeroObjects = heroes.filter(h => selectedHeroIds.includes(h.id));
-            
+
             // 2. Berechne die Chance basierend auf dem gesamten Team-Array
-            const currentChance = selectedHeroObjects.length > 0 
-              ? calculateTeamChance(selectedHeroObjects, m) 
+            const currentChance = selectedHeroObjects.length > 0
+              ? calculateTeamChance(selectedHeroObjects, m)
               : m.baseChance;
 
             // 3. Prüfen, ob mindestens einer im Team die passende Klasse hat (für das ⭐ Bonus-Icon)
@@ -241,20 +241,20 @@ function App() {
 
             return (
               <div key={m.label} className="mission-wrapper">
-                <MissionButton 
-                  config={m} 
-                  onLaunch={() => startMission(m, currentChance)} 
+                <MissionButton
+                  config={m}
+                  onLaunch={() => startMission(m, currentChance)}
                   // Der Button ist nur aktiv, wenn Team-Größe stimmt UND alle bereit sind
                   disabled={!isTeamSizeOk || !allAvailable}
                 />
-                
+
                 {selectedHeroIds.length > 0 && (
                   <div className={`chance-display ${hasSynergy ? 'synergy' : ''}`}>
-                    Chance: {(currentChance * 100).toFixed(0)}% 
+                    Chance: {(currentChance * 100).toFixed(0)}%
                     {hasSynergy && " ⭐ Bonus!"}
                   </div>
                 )}
-                
+
                 <div className={`team-size ${selectedHeroIds.length > m.maxHeroes ? 'error' : ''}`}>
                   👥 {selectedHeroIds.length} / {m.maxHeroes} Helden
                 </div>
@@ -263,18 +263,18 @@ function App() {
           })}
         </div>
       </div>
-      <div className="hero-shop"><HeroShop 
-        onBuyHero={buyHero} 
+      <div className="hero-shop"><HeroShop
+        onBuyHero={buyHero}
         currentGold={gold}
         onRefresh={handleRefreshGold}
-        ownedHeroIds={heroes.map(h => h.id).concat(graveyard.map(h => h.id))} 
+        ownedHeroIds={heroes.map(h => h.id).concat(graveyard.map(h => h.id))}
       /></div>
       <Graveyard deadHeroes={graveyard} ></Graveyard>
-      <ToastContainer 
-        notifications={notifications} 
-        onRemove={(id) => setNotifications(prev => prev.filter(n => n.id !== id))} 
+      <ToastContainer
+        notifications={notifications}
+        onRemove={(id) => setNotifications(prev => prev.filter(n => n.id !== id))}
       />
-  </div>
+    </div>
   )
 }
 

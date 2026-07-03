@@ -4,6 +4,10 @@
   --theme-light-color: #689797;
 }
 
+.main {
+  padding: 0 1em;
+}
+
 h1 {
   line-height: 1;
 }
@@ -285,4 +289,16 @@ button:disabled {
 
 button:disabled:hover {
   cursor: initial;
+}
+
+@media(max-width: 900px) {
+  .hero-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media(max-width: 450px) {
+  .hero-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
